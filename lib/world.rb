@@ -1,21 +1,24 @@
+require 'ruby-progressbar'
+
 class World
   attr_accessor :inhabitants, :age, :starting_population
 
   def initialize(population: 3)
-    @age = 0
     @starting_population = population.times.map { Denizen.new(world: self) }
     @inhabitants = starting_population.dup
     @cemetary = []
   end
 
   def advance
-    @age += 1
+    @age.increment
     # inhabitants.each &:react
     inhabitants.map {|i| Thread.new {i.react} }.each &:join
-    puts Leaderboard.new(inhabitants).display
+    # puts Leaderboard.new(inhabitants).display
   end
 
   def spin(generations: 3)
+    @age = ProgressBar.create format: '%a |%b>>%i| %E', total: generations
+
     @started_at = Time.now
     generations.times { advance }
     @ended_at = Time.now
