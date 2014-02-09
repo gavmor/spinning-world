@@ -23,7 +23,7 @@ class Recollection
   end
 
   def log interaction
-    line = [interaction.agent.name, interaction.magnitude, interaction.target.name].join '•'
+    line = [interaction.agent.name, interaction.magnitude, interaction.target.name].join ','
     self.class.logger.info line
   end
 end
