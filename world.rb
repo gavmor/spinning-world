@@ -1,7 +1,7 @@
 class World
   attr_accessor :inhabitants, :age, :starting_population
 
-  def initialize(population: 30)
+  def initialize(population: 3)
     @age = 0
     @starting_population = population.times.map { Denizen.new(world: self) }
     @inhabitants = starting_population.dup
@@ -10,8 +10,9 @@ class World
 
   def advance
     @age += 1
-    inhabitants.each &:react
-    # inhabitants.map {|i| Thread.new {i.react} }.each &:join
+    # inhabitants.each &:react
+    inhabitants.map {|i| Thread.new {i.react} }.each &:join
+    leaderboard
   end
 
   def spin(generations: 3)
@@ -41,6 +42,12 @@ class World
   private
   attr_accessor :started_at, :ended_at, :cemetary
 
+  def leaderboard
+    inhabitants.sort.map do |player|
+      "#{player.name[0..2]} ~ #{player.wealth}"
+    end << ['-'*10]
+  end
+
   def stats
     {
         age: age,
@@ -50,7 +57,7 @@ class World
         loser_at: loser.wealth,
         disparity: disparity,
         duration: duration
-      }
+    }
   end
 
   def duration
@@ -58,6 +65,8 @@ class World
   end
 
   def disparity
+    puts "winner.wealth: #{winner.wealth}"
+    puts "loser.wealth: #{loser.wealth}"
     (loser.wealth/winner.wealth.to_f).round(2)
   end
 end

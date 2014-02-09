@@ -17,12 +17,12 @@ class Denizen
 
   def take interaction
     interaction.target = self
-    memory.record interaction
-    # die if wealth <= 0
+    recollection.record interaction
+    die if wealth <= cost_of_living
   end
 
   def wealth
-    boon_magnitude - bane_magnitude
+    recollection.of(:boon).in_toto - recollection.of(:bane).in_toto
   end
 
   protected
@@ -33,16 +33,8 @@ class Denizen
 
   private
 
-  def boon_magnitude
-    memory.of(:boon).map(&:magnitude).reduce(:+) || 0
-  end
-
-  def bane_magnitude
-    memory.of(:bane).map(&:magnitude).reduce(:+) || 0
-  end
-
-  def memory
-    @memory ||= Memory.new
+  def recollection
+    @recollection ||= Recollection.new
   end
 
   def neighbors
@@ -51,20 +43,22 @@ class Denizen
 
   def approach neighbor
     case strategy
-    when :good then assist neighbor
-    when :bad then attack neighbor
+    when :good then grant neighbor, :boon
+    when :bad then grant neighbor, :bane
     end
   end
 
-  def attack neighbor
-    neighbor.take Interaction.new(style: :bane, agent: self)
-  end
-
-  def assist neighbor
-    neighbor.take Interaction.new(style: :boon, agent: self)
+  def grant neighbor, style
+    magnitude = recollection.of(neighbor).in_toto
+    interaction = Interaction.new style: style, agent: self, magnitude: magnitude
+    neighbor.take interaction
   end
 
   def die
     world.remove self
+  end
+
+  def cost_of_living
+    0
   end
 end

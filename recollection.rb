@@ -30,7 +30,7 @@ end
 
 class Array
   def in_toto
-    return 0 if self.none?
+    return 1 unless self.any?
     self.map(&:magnitude).reduce(:+)
   end
 end

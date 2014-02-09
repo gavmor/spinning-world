@@ -5,6 +5,6 @@ class Interaction
     @style = style
     @agent = agent
     @target = target
-    @magnitude = magnitude
+    @magnitude = magnitude * (style == :boon ? 1 : -1)
   end
 end
