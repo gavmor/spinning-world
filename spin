@@ -1,4 +1,4 @@
-#!/Users/Gavin/.rvm/rubies/ruby-2.0.0-p247/bin/ruby
+#!/usr/bin/ruby
 
 Dir[File.dirname(__FILE__) + '/*rb'].each {|file| require file }
 
