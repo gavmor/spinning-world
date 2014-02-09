@@ -1,12 +1,19 @@
 require 'faker'
+require 'ansi'
+
+class String
+  include ANSI::Mixin
+end
+
 
 class Denizen
-  attr_accessor :world, :name, :strategy
+  attr_accessor :world, :name, :strategy, :color
 
   def initialize(params={})
     @world = params.fetch(:world)
     @strategy = params.fetch(:strategy, [:good, :bad].sample)
     @name = Faker::Name.first_name
+    @color = [:red, :yellow, :green, :cyan, :magenta].sample
   end
 
   def react
@@ -43,8 +50,8 @@ class Denizen
 
   def approach neighbor
     case strategy
-    when :good then grant neighbor, :boon
-    when :bad then grant neighbor, :bane
+      when :good then grant neighbor, :boon
+      when :bad then grant neighbor, :bane
     end
   end
 

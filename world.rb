@@ -12,7 +12,7 @@ class World
     @age += 1
     # inhabitants.each &:react
     inhabitants.map {|i| Thread.new {i.react} }.each &:join
-    puts leaderboard
+    puts Leaderboard.new(inhabitants).display
   end
 
   def spin(generations: 3)
@@ -41,12 +41,6 @@ class World
 
   private
   attr_accessor :started_at, :ended_at, :cemetary
-
-  def leaderboard
-    inhabitants.sort.map do |player|
-      "#{player.name[0..2]} ~ #{player.wealth}"
-    end << ['-'*10]
-  end
 
   def stats
     {
