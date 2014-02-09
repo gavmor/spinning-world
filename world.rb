@@ -12,7 +12,7 @@ class World
     @age += 1
     # inhabitants.each &:react
     inhabitants.map {|i| Thread.new {i.react} }.each &:join
-    leaderboard
+    puts leaderboard
   end
 
   def spin(generations: 3)
