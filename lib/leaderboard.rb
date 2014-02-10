@@ -1,3 +1,7 @@
+class String
+  include ANSI::Mixin
+end
+
 class Leaderboard
 
   def initialize players

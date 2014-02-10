@@ -1,11 +1,6 @@
 require 'faker'
 require 'ansi'
 
-class String
-  include ANSI::Mixin
-end
-
-
 class Denizen
   attr_accessor :world, :name, :strategy, :color
 
