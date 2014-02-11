@@ -18,13 +18,10 @@ describe Recollection do
     let(:obj) { described_class.new }
     let(:interaction) { double }
     before do
-      allow(obj).to receive :log
       obj.record interaction
     end
 
-    it "calls #log" do
-      expect(obj).to have_received :log
-    end
+    it 'works'
   end
 
   describe "#of" do
