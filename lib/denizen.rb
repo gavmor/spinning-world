@@ -1,7 +1,10 @@
 require 'faker'
 require 'ansi'
+require_relative 'observable'
 
 class Denizen
+  include Observable
+  
   attr_accessor :world, :name, :strategy, :color
 
   def initialize(params={})

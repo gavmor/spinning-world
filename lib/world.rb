@@ -6,6 +6,7 @@ class World
   def initialize(population: 3)
     @starting_population = population.times.map { Denizen.new(world: self) }
     @inhabitants = starting_population.dup
+    @observer = DenizenObserver.new
     @cemetary = []
   end
 
@@ -21,6 +22,7 @@ class World
 
     @started_at = Time.now
     generations.times { advance }
+    @observer.finalize
     @ended_at = Time.now
     stats
   end
